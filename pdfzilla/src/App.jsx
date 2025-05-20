@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { tw } from 'twind';
 import { _GSPS2PDF } from './service/worker-init';
 import { useEffect } from "react";
@@ -20,48 +20,83 @@ const styles = {
 };
 
 const AdComponent = () => {
-  useEffect(() => {
-    try {
-      if (typeof window !== 'undefined') {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }
-    } catch (e) {
-      console.error("AdSense error", e);
+  const leftAdRef = useRef(null);
+  const rightAdRef = useRef(null);
+  const mobileAdRef = useRef(null);
+
+  const loadAd = (ref, adSlot) => {
+    if (!ref.current) return;
+    
+    // Make sure the element is visible
+    const style = window.getComputedStyle(ref.current);
+    if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+      return;
     }
+
+    // Clear any existing content
+    ref.current.innerHTML = '';
+    
+    // Create new ad container
+    const ins = document.createElement('ins');
+    ins.className = 'adsbygoogle';
+    ins.style.display = 'block';
+    ins.dataset.adClient = 'ca-pub-3217950182374373';
+    ins.dataset.adSlot = adSlot;
+    ins.dataset.adFormat = 'auto';
+    ins.dataset.fullWidthResponsive = 'true';
+    
+    ref.current.appendChild(ins);
+    
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const loadAds = () => {
+      loadAd(leftAdRef, '5765874093');
+      loadAd(rightAdRef, '4452792422');
+      loadAd(mobileAdRef, '5328784030');
+    };
+
+    // Try loading immediately if document is ready
+    if (document.readyState === 'complete') {
+      loadAds();
+    } else {
+      // Otherwise wait for window load
+      window.addEventListener('load', loadAds);
+    }
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('load', loadAds);
+    };
   }, []);
 
   return (
     <>
       {/* Desktop Side Ads */}
-      <div className="hidden lg:flex fixed top-20 left-0 z-30">
-        <ins className="adsbygoogle block"
-          style={{ width: "120px", height: "600px", display: "block" }}
-          data-ad-client="ca-pub-3217950182374373"
-          data-ad-slot="5765874093"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></ins>
-      </div>
-      <div className="hidden lg:flex fixed top-20 right-0 z-30">
-        <ins className="adsbygoogle block"
-          style={{ width: "120px", height: "600px", display: "block" }}
-          data-ad-client="ca-pub-3217950182374373"
-          data-ad-slot="4452792422"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></ins>
-      </div>
+      <div 
+        ref={leftAdRef}
+        className="hidden lg:block fixed top-20 left-0 z-30" 
+        style={{ width: '120px', height: '600px' }}
+      ></div>
+      <div 
+        ref={rightAdRef}
+        className="hidden lg:block fixed top-20 right-0 z-30" 
+        style={{ width: '120px', height: '600px' }}
+      ></div>
 
       {/* Mobile Bottom Ad */}
-      <div className="lg:hidden fixed bottom-0 w-full z-50 bg-white shadow-md">
-        <ins className="adsbygoogle block"
-          style={{ display: "block", width: "100%", height: "90px" }}
-          data-ad-client="ca-pub-3217950182374373"
-          data-ad-slot="5328784030"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></ins>
-      </div>
+      <div 
+        ref={mobileAdRef}
+        className="lg:hidden fixed bottom-0 w-full z-50 bg-white shadow-md" 
+        style={{ height: '90px' }}
+      ></div>
     </>
   );
 };
@@ -190,13 +225,15 @@ export default function App() {
         </div>
       )}
 
-      <footer className={tw`mt-12 flex items-center justify-center`}>
-        <a href="https://github.com/ShubhamKjha/oasis" target="_blank" rel="noopener noreferrer">
+      <footer className={tw`mt-12 flex items-center justify-center space-x-2`}>
+        <a href="https://github.com/ShubhamKjha/oasis" target="_blank" rel="noopener noreferrer" className={tw`flex items-center`}>
           <svg className={tw`w-4 h-4 text-gray-400 hover:text-gray-600`} fill="currentColor" viewBox="0 0 24 24">
             <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
           </svg>
         </a>
-        <span className={tw`ml-2 text-gray-400`}>compresspdfs.com - All compressions happen locally</span>
+        <span className={tw`text-gray-400 text-xs sm:text-sm`}>
+          compresspdfs.com - All compressions happen locally
+        </span>
       </footer>
     </main>
     </div>
