@@ -1,0 +1,46 @@
+# Ignore node modules in frontend
+/frontend/node_modules/
+
+# Build output
+/frontend/build/
+/frontend/dist/
+/frontend/.next/
+/frontend/out/
+/frontend/.parcel-cache/
+/frontend/.bun
+
+# Environment files
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+# Logs
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+
+# Testing
+/frontend/coverage/
+
+# IDEs and editors
+/frontend/.vscode/
+frontend/.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ESLint cache
+/frontend/.eslintcache
+
+# Storybook
+/frontend/storybook-static/
+
