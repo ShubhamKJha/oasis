@@ -1,6 +1,6 @@
 import React from 'react';
 import { tw } from 'twind';
-
+import { Link } from 'react-router-dom';
 
 export default function PrivacyPolicy() {
   return (
@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
       <h2 className={tw`text-xl font-semibold mt-4 mb-2`}>Cookies</h2>
       <p className={tw`mb-2`}>Third-party services like Google AdSense and Analytics may use cookies to serve ads and analyze site usage. You can control cookies through your browser settings.</p>
       <h2 className={tw`text-xl font-semibold mt-4 mb-2`}>Contact</h2>
-      <p className={tw``}>If you have privacy concerns, please <a href="/contact" className={tw`text-blue-600 underline`}>contact us</a>.</p>
+      <p className={tw``}>If you have privacy concerns, please <Link to="/contact" className={tw`text-blue-600 underline`}>contact us</Link>.</p>
     </div>
   );
 }
