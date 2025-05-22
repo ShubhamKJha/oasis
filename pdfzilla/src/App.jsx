@@ -480,8 +480,16 @@ function HomePage() {
             Watch this short video to see how easy it is to <strong>compress pdf securely</strong> and <strong>reduce pdf size without losing quality</strong> using our tool.
           </p>
           {/* Placeholder for video embed */}
-          <div className={tw`aspect-w-16 aspect-h-9 bg-gray-300 rounded-lg flex items-center justify-center max-w-xl mx-auto shadow-md`}>
-            {/* Replace with your actual video embed code, e.g., iframe from YouTube/Vimeo */}
+          <div className={tw`aspect-w-16 aspect-h-9 bg-gray-800 rounded-lg flex flex-col items-center justify-center max-w-xl mx-auto shadow-md text-white cursor-pointer hover:bg-gray-700 transition-colors`}>
+            {/* YouTube SVG Icon */}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" className={tw`w-16 h-16 mt-5 mb-2 fill-current text-red-600`}>
+              {/* !Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. */}
+              <path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/>
+            </svg>
+            <p className={tw`text-lg font-semibold`}>Watch Video Tutorial</p>
+            <p className={tw`text-sm text-gray-400 mb-4`}>(Coming Soon)</p>
+          </div>
+          {/* 
             <iframe 
               className={tw`w-full h-full rounded-lg`}
               src="https://www.youtube.com/embed/your_video_id_here" 
@@ -492,7 +500,7 @@ function HomePage() {
               loading="lazy"
             ></iframe>
             <p className={tw`text-gray-500`}>Video tutorial coming soon! (60-90 seconds)</p>
-          </div>
+          */}
         </section>
       </div>
 
